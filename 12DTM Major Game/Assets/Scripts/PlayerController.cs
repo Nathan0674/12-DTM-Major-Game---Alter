@@ -16,7 +16,8 @@ public class PlayerController : MonoBehaviour
     public float vertical;
     public int swapNumber;
     public int playerState;
-    public float runSpeed = 10.0f;
+    public float runSpeed = 6.0f;
+    public float jumpPower = 15.0f;
     private bool isGrounded;
 
     private void Start()
@@ -29,12 +30,12 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         isGrounded = Physics2D.OverlapBox(groundCheck.transform.position, new Vector2(bc.bounds.size.x - 0.1f, 0.1f), 0f, groundLayer);
-        horizontal = Input.GetAxisRaw("Horizontal");
+        horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
 
         if(vertical != 0 && isGrounded)
         {
-            body.velocity = new Vector2(body.velocity.x, vertical * runSpeed);
+            body.velocity = new Vector2(body.velocity.x, vertical * jumpPower);
         }
         body.velocity = new Vector2(horizontal * runSpeed, body.velocity.y);
         
@@ -54,11 +55,11 @@ public class PlayerController : MonoBehaviour
             
             if(swapNumber%2==0)
             {
-                spriteRenderer.sprite = playerDark; 
+                spriteRenderer.sprite = playerLight; 
             }
             else
             {
-                spriteRenderer.sprite = playerLight; 
+                spriteRenderer.sprite = playerDark; 
             }
         }
     }
