@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     public float runSpeed = 6.0f;
     public float jumpPower = 15.0f;
     private bool isGrounded;
+    public int playerHitPoints = 50;
 
     private void Start()
     {
@@ -51,6 +52,7 @@ public class PlayerController : MonoBehaviour
 
         if(Input.GetKeyDown("x"))
         {
+
             swapNumber += 1;
             
             if(swapNumber%2==0)
@@ -62,5 +64,11 @@ public class PlayerController : MonoBehaviour
                 spriteRenderer.sprite = playerDark; 
             }
         }
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        playerHitPoints -= 5;
+        Debug.Log(playerHitPoints);
     }
 }
