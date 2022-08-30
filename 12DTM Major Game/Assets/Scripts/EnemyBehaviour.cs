@@ -5,15 +5,19 @@ using UnityEngine;
 public class EnemyBehaviour : MonoBehaviour
 {
     public float enemySpeed;
+    public bool activeState;
+
     Rigidbody2D rb2DEnemy;
     private SpriteRenderer enemySpriteRenderer;
     private BoxCollider2D enemyBoxCollider;
     private float enemyDirection;
+    public Transform Player;
 
     // Start is called before the first frame update
     void Start()
     {
         enemyDirection = -1;
+        activeState = false;
 
         enemyBoxCollider = GetComponent<BoxCollider2D>();
         enemySpriteRenderer = GetComponent<SpriteRenderer>();
@@ -25,17 +29,34 @@ public class EnemyBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        rb2DEnemy.velocity = new Vector2(enemySpeed * enemyDirection, rb2DEnemy.velocity.y);
+        if (activeState == false)
+        {
+            rb2DEnemy.velocity = new Vector2(enemySpeed * enemyDirection, rb2DEnemy.velocity.y);
 
-        if (enemyDirection > 0)
-        {
-            enemySpriteRenderer.flipX = false;
+            if (enemyDirection > 0)
+            {
+                enemySpriteRenderer.flipX = false;
+            }
+            
+            else if (enemyDirection < 0)
+            {
+                enemySpriteRenderer.flipX = true;
+            } 
         }
-        
-        else if (enemyDirection < 0)
+
+        if (activeState == true)
         {
-            enemySpriteRenderer.flipX = true;
-        } 
+            if (Player.position.x > gameObject.transform.position.x)
+            {
+                enemyDirection = 1;
+                rb2DEnemy.velocity = new Vector2(enemySpeed * enemyDirection, rb2DEnemy.velocity.y);
+            }
+            if (Player.position.x < gameObject.transform.position.x)
+            {
+                enemyDirection = -1;
+                rb2DEnemy.velocity = new Vector2(enemySpeed * enemyDirection, rb2DEnemy.velocity.y);
+            }
+        }
     }
 
     void EnemyDirectionSwap()

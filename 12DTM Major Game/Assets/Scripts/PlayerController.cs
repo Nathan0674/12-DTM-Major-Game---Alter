@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        isGrounded = Physics2D.OverlapBox(groundCheck.transform.position, new Vector2(bc.bounds.size.x - 0.1f, 0.1f), 0f, groundLayer);
+        isGrounded = Physics2D.OverlapBox(groundCheck.transform.position, new Vector2(bc.bounds.size.x - 0.1f, 0.3f), 0f, groundLayer);
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
 
@@ -64,6 +64,7 @@ public class PlayerController : MonoBehaviour
                 spriteRenderer.sprite = playerDark; 
             }
         }
+        Debug.Log(isGrounded);
     }
 
     void OnCollisionEnter(Collision collision)
