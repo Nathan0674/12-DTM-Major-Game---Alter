@@ -272,7 +272,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 453779951}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Outter Ships Environment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -307,7 +307,7 @@ GameObject:
   - component: {fileID: 1022300280}
   - component: {fileID: 1022300279}
   - component: {fileID: 1022300281}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EnemyDetectionRadius
   m_TagString: EnemySight
   m_Icon: {fileID: 0}
@@ -362,9 +362,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.09237153, y: 0}
+  m_Offset: {x: -0.120662965, y: 0}
   serializedVersion: 2
-  m_Radius: 11.862391
+  m_Radius: 7.760914
 --- !u!114 &1022300281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -936,7 +936,7 @@ GameObject:
   - component: {fileID: 1613246917}
   - component: {fileID: 1613246913}
   - component: {fileID: 1613246915}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -1502,7 +1502,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.0970131, y: 5.16}
+  m_Size: {x: 1.1, y: 5}
   m_EdgeRadius: 0
 --- !u!50 &1845137461
 Rigidbody2D:
@@ -1605,7 +1605,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemySpeed: 2
+  enemyJumpPower: 10
   activeState: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
   Player: {fileID: 1613246916}
 --- !u!1 &2081301426
 GameObject:

@@ -64,12 +64,10 @@ public class PlayerController : MonoBehaviour
                 spriteRenderer.sprite = playerDark; 
             }
         }
-        Debug.Log(isGrounded);
     }
 
     void OnCollisionEnter(Collision collision)
     {
         playerHitPoints -= 5;
-        Debug.Log(playerHitPoints);
     }
 }
