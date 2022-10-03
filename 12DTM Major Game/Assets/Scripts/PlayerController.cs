@@ -15,7 +15,6 @@ public class PlayerController : MonoBehaviour
     public float horizontal;
     public float vertical;
     public int swapNumber;
-    public int playerState;
     public float runSpeed = 6.0f;
     public float jumpPower = 15.0f;
     private bool isGrounded;
@@ -66,8 +65,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter2D (Collider2D col)
     {
-        playerHitPoints -= 5;
+        if (col.gameObject.tag == "EnemyCollision")
+        {
+            playerHitPoints -= 5;
+            Debug.Log(playerHitPoints);
+        }
     }
 }

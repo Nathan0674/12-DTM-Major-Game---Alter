@@ -13,6 +13,7 @@ public class EnemyBehaviour : MonoBehaviour
     private BoxCollider2D enemyBoxCollider;
     private float enemyDirection;
     public LayerMask groundLayer;
+    public LayerMask playerLayer;
     public Transform Player;
 
     // Start is called before the first frame update
@@ -31,15 +32,12 @@ public class EnemyBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, (Vector2.right * enemyDirection), 1.0f, groundLayer);
-        Debug.DrawRay(new Vector2 (transform.position.x + (0.5f * enemyDirection), transform.position.y), (Vector2.right * enemyDirection), Color.green);
+        RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - 1.0f), (Vector2.right * enemyDirection), 0.5f, groundLayer);
+        //Debug.DrawRay(new Vector2 (transform.position.x + (0.5f * enemyDirection), transform.position.y - 1.0f), (Vector2.right * enemyDirection), Color.green);
         if (hit == true)
         {
             rb2DEnemy.velocity = new Vector2(rb2DEnemy.velocity.x, 1.0f * enemyJumpPower);
-            Debug.Log("Jumping");
-        }
-        else{
-            Debug.Log("Child");
+            //Debug.Log("Jumping");
         }
 
         if (activeState == false)
@@ -59,6 +57,7 @@ public class EnemyBehaviour : MonoBehaviour
 
         if (activeState == true)
         {
+            enemyJumpPower = 10;
             if (Player.position.x > (gameObject.transform.position.x + 0.5f))
             {
                 enemyDirection = 1;
@@ -78,6 +77,18 @@ public class EnemyBehaviour : MonoBehaviour
             {
                 enemySpriteRenderer.flipX = true;
             } 
+        }
+        else
+        {
+            enemyJumpPower = 5;
+        }
+
+        RaycastHit2D shoot = Physics2D.Raycast(gameObject.transform.position, (Vector2.right * enemyDirection), 1.5f, playerLayer);
+        Debug.DrawRay(gameObject.transform.position, Vector2.right * enemyDirection * 1.5f, Color.green);
+    
+        if (shoot == true)
+        {
+            Debug.Log("Sho0ot Fired");
         }
     }
 
