@@ -8,6 +8,8 @@ TagManager:
   - EnemyCollision
   - Enemy
   - EnemySpider
+  - EnemyBullet
+  - PlayerBullet
   layers:
   - Default
   - TransparentFX
@@ -18,8 +20,8 @@ TagManager:
   - Ground
   - playerLayer
   - Detection
-  - 
-  - 
+  - ProjectileEnemy
+  - ProjectilePlayer
   - 
   - 
   - 

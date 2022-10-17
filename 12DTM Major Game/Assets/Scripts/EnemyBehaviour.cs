@@ -11,10 +11,14 @@ public class EnemyBehaviour : MonoBehaviour
     private Rigidbody2D rb2DEnemy;
     private SpriteRenderer enemySpriteRenderer;
     private BoxCollider2D enemyBoxCollider;
-    private float enemyDirection;
+    public float enemyDirection;
     public LayerMask groundLayer;
     public LayerMask playerLayer;
-    public Transform Player;
+    private GameObject Player;
+    public GameObject EnemyBullet;
+    public bool IsAvailable = true;
+    public float CooldownDuration = 0.3f;
+    public int enemyHitPoints;
 
     // Start is called before the first frame update
     void Start()
@@ -22,11 +26,13 @@ public class EnemyBehaviour : MonoBehaviour
         enemyDirection = -1;
         activeState = false;
 
+        Player = GameObject.Find("Player");
+
         enemyBoxCollider = GetComponent<BoxCollider2D>();
         enemySpriteRenderer = GetComponent<SpriteRenderer>();
         rb2DEnemy = GetComponent<Rigidbody2D>();  
 
-        InvokeRepeating("EnemyDirectionSwap", 0.0f, 2.0f);
+        InvokeRepeating("EnemyDirectionSwap", 0.0f, 1.0f);
     }
 
     // Update is called once per frame
@@ -58,12 +64,12 @@ public class EnemyBehaviour : MonoBehaviour
         if (activeState == true)
         {
             enemyJumpPower = 10;
-            if (Player.position.x > (gameObject.transform.position.x + 0.5f))
+            if (Player.transform.position.x > (gameObject.transform.position.x + 0.5f))
             {
                 enemyDirection = 1;
                 rb2DEnemy.velocity = new Vector2(enemySpeed * enemyDirection, rb2DEnemy.velocity.y);
             }
-            if (Player.position.x < (gameObject.transform.position.x - 0.5f))
+            if (Player.transform.position.x < (gameObject.transform.position.x - 0.5f))
             {
                 enemyDirection = -1;
                 rb2DEnemy.velocity = new Vector2(enemySpeed * enemyDirection, rb2DEnemy.velocity.y);
@@ -83,17 +89,50 @@ public class EnemyBehaviour : MonoBehaviour
             enemyJumpPower = 5;
         }
 
-        RaycastHit2D shoot = Physics2D.Raycast(gameObject.transform.position, (Vector2.right * enemyDirection), 1.5f, playerLayer);
-        Debug.DrawRay(gameObject.transform.position, Vector2.right * enemyDirection * 1.5f, Color.green);
+        RaycastHit2D shoot = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + 0.6f), (Vector2.right * enemyDirection), 6.0f, playerLayer);
+        Debug.DrawRay(new Vector2(transform.position.x, transform.position.y + 0.6f), Vector2.right * enemyDirection * 6.0f, Color.green);
     
         if (shoot == true)
         {
-            Debug.Log("Sho0ot Fired");
+            UseAbility();
         }
+    }
+
+    void UseAbility()
+    {
+        if (IsAvailable == false)
+        {
+            return;
+        }
+
+        Instantiate(EnemyBullet, new Vector2(transform.position.x, transform.position.y + 0.7f), Quaternion.identity);
+        // Debug.Log("Shot Fired");
+
+        StartCoroutine(StartCooldown());
+    }
+
+    public IEnumerator StartCooldown()
+    {
+        IsAvailable = false;
+        yield return new WaitForSeconds(CooldownDuration);
+        IsAvailable = true;
     }
 
     void EnemyDirectionSwap()
     {
         enemyDirection = enemyDirection * -1f;
+    }
+
+    void OnTriggerEnter2D (Collider2D col)
+    {
+        if (col.gameObject.tag == "PlayerBullet")
+        {
+            enemyHitPoints = enemyHitPoints - 1;
+            Debug.Log(enemyHitPoints);
+            if (enemyHitPoints <= 0) 
+            {
+                Destroy(gameObject);
+            }
+        }
     }
 }
