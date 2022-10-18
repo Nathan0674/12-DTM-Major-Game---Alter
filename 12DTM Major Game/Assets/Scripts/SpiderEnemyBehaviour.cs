@@ -6,6 +6,7 @@ public class SpiderEnemyBehaviour : MonoBehaviour
 {
     private float spiderSpeed = 1;
     public bool activeState;
+    private float spiderHitPoints = 50;
 
     private Rigidbody2D rb2DSpider;
     private SpriteRenderer spiderSpriteRenderer;
@@ -73,5 +74,19 @@ public class SpiderEnemyBehaviour : MonoBehaviour
     void SpiderDirectionSwap()
     {
         spiderDirection = spiderDirection * -1f;
+    }
+
+    void OnTriggerEnter2D (Collider2D col)
+    {
+        if (col.gameObject.tag == "PlayerBullet")
+        {
+            spiderHitPoints = spiderHitPoints - 0.5f;
+            Debug.Log(spiderHitPoints);
+            if (spiderHitPoints <= 0) 
+            {
+                Destroy(gameObject);
+                Debug.Log("Spider Killed");
+            }
+        }
     }
 }

@@ -18,7 +18,7 @@ public class EnemyBehaviour : MonoBehaviour
     public GameObject EnemyBullet;
     public bool IsAvailable = true;
     public float CooldownDuration = 0.3f;
-    public int enemyHitPoints;
+    private float enemyHitPoints = 30;
 
     // Start is called before the first frame update
     void Start()
@@ -132,6 +132,7 @@ public class EnemyBehaviour : MonoBehaviour
             if (enemyHitPoints <= 0) 
             {
                 Destroy(gameObject);
+                Debug.Log("Enemy Killed");
             }
         }
     }

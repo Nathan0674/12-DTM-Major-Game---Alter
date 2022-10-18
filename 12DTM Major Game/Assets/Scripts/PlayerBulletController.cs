@@ -30,7 +30,11 @@ public class PlayerBulletController : MonoBehaviour
     }
     void OnTriggerEnter2D (Collider2D col)
     {
-        if (col.gameObject.tag == "Enemy")
+        if (col.gameObject.tag != "Player" && col.gameObject.tag != "EnemyCollision" && col.gameObject.tag != "EnemySight" && col.gameObject.tag != "SpiderSight")
+        {
+            Destroy(gameObject);
+        }
+        else if (Vector2.Distance(transform.position, player.transform.position) >= 10 || Vector2.Distance(transform.position, player.transform.position) <= -10) 
         {
             Destroy(gameObject);
         }

@@ -8,7 +8,6 @@ public class JetPackEnemyBullet : MonoBehaviour
     private Transform target;
     private GameObject player;
     public float speed;
-    private float bulletDirection;
 
     // Start is called before the first frame update
     void Start()
@@ -16,7 +15,6 @@ public class JetPackEnemyBullet : MonoBehaviour
         player = GameObject.Find("Player");
         target = player.transform;
         enemy = GameObject.Find("Enemy");
-        bulletDirection = enemy.gameObject.GetComponent<EnemyBehaviour>().enemyDirection;
     }
 
     // Update is called once per frame
@@ -26,7 +24,11 @@ public class JetPackEnemyBullet : MonoBehaviour
     }
     void OnTriggerEnter2D (Collider2D col)
     {
-        if (col.gameObject.tag == "Player")
+        if (col.gameObject.tag != "Enemy" && col.gameObject.tag != "EnemyCollision" && col.gameObject.tag != "EnemySight" && col.gameObject.tag != "SpiderSight")
+        {
+            Destroy(gameObject);
+        }
+        else if (Vector2.Distance(transform.position, enemy.transform.position) >= 10) 
         {
             Destroy(gameObject);
         }
