@@ -8,7 +8,9 @@ public class PlayerBulletController : MonoBehaviour
     private GameObject player;
     private Rigidbody2D bulletRb2D;
     public float speed;
+
     bool velocitySet;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -27,14 +29,16 @@ public class PlayerBulletController : MonoBehaviour
             bulletRb2D.velocity = new Vector2(player.gameObject.GetComponent<PlayerController>().shootDirection.x * speed, player.gameObject.GetComponent<PlayerController>().shootDirection.y * speed);
         }
         velocitySet = true;
-    }
-    void OnTriggerEnter2D (Collider2D col)
-    {
-        if (col.gameObject.tag != "Player" && col.gameObject.tag != "EnemyCollision" && col.gameObject.tag != "EnemySight" && col.gameObject.tag != "SpiderSight")
+
+        if (Vector2.Distance(gameObject.transform.position, player.transform.position) >= 20) 
         {
             Destroy(gameObject);
         }
-        else if (Vector2.Distance(transform.position, player.transform.position) >= 10 || Vector2.Distance(transform.position, player.transform.position) <= -10) 
+
+    }
+    void OnTriggerEnter2D (Collider2D col)
+    {
+        if (col.gameObject.tag != "Player" && col.gameObject.tag != "EnemyCollision" && col.gameObject.tag != "EnemySight" && col.gameObject.tag != "SpiderSight" && col.gameObject.tag != "Background")
         {
             Destroy(gameObject);
         }

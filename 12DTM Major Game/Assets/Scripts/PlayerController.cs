@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    Rigidbody2D body;
+    public Rigidbody2D body;
     private BoxCollider2D bc;
     private SpriteRenderer spriteRenderer;
     public LayerMask groundLayer;
@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour
     public float runSpeed = 6.0f;
     public float jumpPower = 15.0f;
     private bool isGrounded;
+    public bool movingLeft;
+    public bool moveingRight;
     public int playerHitPoints = 50;
 
     private void Start()
@@ -49,13 +51,20 @@ public class PlayerController : MonoBehaviour
         
         if (Input.GetAxisRaw("Horizontal") > 0)
         {
+            moveingRight = true;
             spriteRenderer.flipX = false;
         }
         
         else if (Input.GetAxisRaw("Horizontal") < 0)
         {
+            movingLeft = true;
             spriteRenderer.flipX = true;
         } 
+        else 
+        {
+            movingLeft = false;
+            moveingRight = false;
+        }
 
         if(Input.GetKeyDown("x"))
         {

@@ -10,6 +10,7 @@ TagManager:
   - EnemySpider
   - EnemyBullet
   - PlayerBullet
+  - Background
   layers:
   - Default
   - TransparentFX
@@ -50,9 +51,15 @@ TagManager:
   - name: Background
     uniqueID: 3270336851
     locked: 0
+  - name: Ground
+    uniqueID: 3851725481
+    locked: 0
   - name: Enemy
     uniqueID: 367592023
     locked: 0
   - name: Player
     uniqueID: 1617544147
+    locked: 0
+  - name: ForeGround
+    uniqueID: 3672571007
     locked: 0
