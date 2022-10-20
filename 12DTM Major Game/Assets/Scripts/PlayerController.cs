@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     public float jumpPower = 15.0f;
     private bool isGrounded;
     public bool movingLeft;
-    public bool moveingRight;
+    public bool movingRight;
     public int playerHitPoints = 50;
 
     private void Start()
@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
         
         if (Input.GetAxisRaw("Horizontal") > 0)
         {
-            moveingRight = true;
+            movingRight = true;
             spriteRenderer.flipX = false;
         }
         
@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour
         else 
         {
             movingLeft = false;
-            moveingRight = false;
+            movingRight = false;
         }
 
         if(Input.GetKeyDown("x"))

@@ -14,13 +14,20 @@ public class SpiderEnemyBehaviour : MonoBehaviour
     public float spiderDirection;
     public LayerMask groundLayer;
     public LayerMask playerLayer;
-    public Transform Player;
+    public GameObject Player;
+    public Transform playerPos;
+    private GameObject barrier;
+    private bool isColliding;
 
     // Start is called before the first frame update
     void Start()
     {
         spiderDirection = -1;
         activeState = false;
+
+        barrier = GameObject.Find("Barrier");
+        Player = GameObject.Find("Player");
+        playerPos = Player.transform;
 
         spiderBoxCollider = GetComponent<BoxCollider2D>();
         spiderSpriteRenderer = GetComponent<SpriteRenderer>();
@@ -32,11 +39,13 @@ public class SpiderEnemyBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        isColliding = false;
+
         RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - 1.0f), (Vector2.right * spiderDirection), 0.5f, groundLayer);
         //Debug.DrawRay(new Vector2 (transform.position.x + (0.5f * spiderDirection), transform.position.y - 1.0f), (Vector2.right * spiderDirection), Color.green);
         if (hit == true)
         {
-            
+            return;
         }
 
         if (activeState == false)
@@ -58,12 +67,12 @@ public class SpiderEnemyBehaviour : MonoBehaviour
         if (activeState == true)
         {
             spiderSpeed = 3;
-            if (Player.position.x > (gameObject.transform.position.x + 0.5f))
+            if (playerPos.position.x > (gameObject.transform.position.x + 0.5f))
             {
                 spiderDirection = 1;
                 rb2DSpider.velocity = new Vector2(spiderSpeed * spiderDirection, rb2DSpider.velocity.y);
             }
-            if (Player.position.x < (gameObject.transform.position.x - 0.5f))
+            if (playerPos.position.x < (gameObject.transform.position.x - 0.5f))
             {
                 spiderDirection = -1;
                 rb2DSpider.velocity = new Vector2(spiderSpeed * spiderDirection, rb2DSpider.velocity.y);
@@ -80,12 +89,16 @@ public class SpiderEnemyBehaviour : MonoBehaviour
     {
         if (col.gameObject.tag == "PlayerBullet")
         {
+            if (isColliding) return;
+            isColliding = true;
+
             spiderHitPoints = spiderHitPoints - 0.5f;
             Debug.Log(spiderHitPoints);
             if (spiderHitPoints <= 0) 
             {
+                barrier.gameObject.GetComponent<clearManager>().enemiesKilled += 1;
+                Debug.Log(barrier.gameObject.GetComponent<clearManager>().enemiesKilled);
                 Destroy(gameObject);
-                Debug.Log("Spider Killed");
             }
         }
     }

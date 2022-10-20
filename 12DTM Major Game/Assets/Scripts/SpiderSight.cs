@@ -6,18 +6,18 @@ public class SpiderSight : MonoBehaviour
 {
     public GameObject spider;
     public Transform SpiderDetectionRadius;
-    public Transform Spider;
+    public Transform spiderTransform;
 
     // Start is called before the first frame update
     void Start()
     {
-        spider = GameObject.Find("SpiderEnemy");
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        SpiderDetectionRadius.position = Spider.position;
+        SpiderDetectionRadius.position = spiderTransform.position;
     }
 
     void OnTriggerStay2D (Collider2D col)

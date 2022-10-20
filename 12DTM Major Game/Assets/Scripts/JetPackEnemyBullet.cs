@@ -9,6 +9,8 @@ public class JetPackEnemyBullet : MonoBehaviour
     private GameObject player;
     public float speed;
     public float bulletLifetime;
+    private int bulletDirection;
+    private SpriteRenderer bulletSpriteRenderer;
 
     float bulletLifetimeTimer;
 
@@ -19,6 +21,7 @@ public class JetPackEnemyBullet : MonoBehaviour
         target = player.transform;
         enemy = GameObject.Find("Enemy");
         bulletLifetimeTimer = bulletLifetime;
+        bulletSpriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -30,6 +33,22 @@ public class JetPackEnemyBullet : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        if (player.transform.position.x > (gameObject.transform.position.x + 0.5f)) 
+        {
+            bulletDirection = 1;
+        }
+        if (player.transform.position.x < (gameObject.transform.position.x - 0.5f)) 
+        {
+            bulletDirection = -1;
+        }
+        if (bulletDirection > 0)
+        {
+            bulletSpriteRenderer.flipX = false;
+        }
+        else if (bulletDirection < 0)
+        {
+            bulletSpriteRenderer.flipX = true;
+        } 
     }
     void OnTriggerEnter2D (Collider2D col)
     {

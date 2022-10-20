@@ -25,7 +25,6 @@ public class EnemySight : MonoBehaviour
         if (col.gameObject.tag == "Player")
         {
             Enemy.gameObject.GetComponent<EnemyBehaviour>().activeState = true;
-            // Debug.Log("Enemy Aggroed");
         }
     }
     void OnTriggerExit2D (Collider2D col)
@@ -33,7 +32,6 @@ public class EnemySight : MonoBehaviour
         if (col.gameObject.tag == "Player")
         {
             Enemy.gameObject.GetComponent<EnemyBehaviour>().activeState = false;
-            // Debug.Log("Enemy Passive");
         }
     }
 }

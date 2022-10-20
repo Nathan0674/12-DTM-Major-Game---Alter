@@ -16,9 +16,11 @@ public class EnemyBehaviour : MonoBehaviour
     public LayerMask playerLayer;
     private GameObject Player;
     public GameObject EnemyBullet;
+    private GameObject barrier;
     public bool IsAvailable = true;
-    public float CooldownDuration = 0.3f;
+    public float CooldownDuration = 0.1f;
     private float enemyHitPoints = 30;
+    private bool isColliding;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +28,7 @@ public class EnemyBehaviour : MonoBehaviour
         enemyDirection = -1;
         activeState = false;
 
+        barrier = GameObject.Find("Barrier");
         Player = GameObject.Find("Player");
 
         enemyBoxCollider = GetComponent<BoxCollider2D>();
@@ -43,7 +46,6 @@ public class EnemyBehaviour : MonoBehaviour
         if (hit == true)
         {
             rb2DEnemy.velocity = new Vector2(rb2DEnemy.velocity.x, 1.0f * enemyJumpPower);
-            //Debug.Log("Jumping");
         }
 
         if (activeState == false)
@@ -106,7 +108,6 @@ public class EnemyBehaviour : MonoBehaviour
         }
 
         Instantiate(EnemyBullet, new Vector2(transform.position.x, transform.position.y + 0.7f), Quaternion.identity);
-        // Debug.Log("Shot Fired");
 
         StartCoroutine(StartCooldown());
     }
@@ -127,13 +128,24 @@ public class EnemyBehaviour : MonoBehaviour
     {
         if (col.gameObject.tag == "PlayerBullet")
         {
-            enemyHitPoints = enemyHitPoints - 1;
+            if (isColliding) return;
+            isColliding = true;
+
+            enemyHitPoints -= 1;
             Debug.Log(enemyHitPoints);
             if (enemyHitPoints <= 0) 
             {
+                barrier.gameObject.GetComponent<clearManager>().enemiesKilled += 1;
+                Debug.Log(barrier.gameObject.GetComponent<clearManager>().enemiesKilled);
                 Destroy(gameObject);
-                Debug.Log("Enemy Killed");
             }
+            StartCoroutine(Reset());
         }
+    }
+
+    IEnumerator Reset()
+    {
+        yield return new WaitForEndOfFrame();
+        isColliding = false;
     }
 }

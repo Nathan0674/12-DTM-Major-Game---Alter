@@ -16,6 +16,7 @@ public class PlayerBulletController : MonoBehaviour
     void Start()
     {
         bulletRb2D = GetComponent<Rigidbody2D>();
+        
         player = GameObject.Find("Player");
         enemy = GameObject.Find("Enemy");
         velocitySet = false;
@@ -30,11 +31,10 @@ public class PlayerBulletController : MonoBehaviour
         }
         velocitySet = true;
 
-        if (Vector2.Distance(gameObject.transform.position, player.transform.position) >= 20) 
+        if (Vector2.Distance(gameObject.transform.position, player.transform.position) >= 8) 
         {
             Destroy(gameObject);
         }
-
     }
     void OnTriggerEnter2D (Collider2D col)
     {
