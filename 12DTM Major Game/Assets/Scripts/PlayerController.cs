@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     public GameObject PlayerBullet;
     public GameObject spawnPoint;
     public Vector3 shootDirection;
+    private GameObject powerUpManager;
 
     public float horizontal;
     public float vertical;
@@ -24,12 +25,14 @@ public class PlayerController : MonoBehaviour
     public bool movingLeft;
     public bool movingRight;
     public int playerHitPoints = 50;
+    private float time = 0.2f;
 
     private void Start()
     {
         bc = GetComponent<BoxCollider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         body = GetComponent<Rigidbody2D>();  
+        powerUpManager = GameObject.Find("PowerUpManager");
     }
 
     void Update()
@@ -68,7 +71,6 @@ public class PlayerController : MonoBehaviour
 
         if(Input.GetKeyDown("x"))
         {
-
             swapNumber += 1;
             
             if(swapNumber%2==0)
@@ -80,15 +82,25 @@ public class PlayerController : MonoBehaviour
                 spriteRenderer.sprite = playerDark; 
             }
         }
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             Instantiate(PlayerBullet, new Vector2(transform.position.x, transform.position.y + 0.7f), Quaternion.identity);
+
+            if (powerUpManager.GetComponent<PowerUpManager>().doubleBullets == true) 
+            {
+                StartCoroutine(DelayedShot(time));
+            }
         }
 
         // Respawn the player at pre-determined spawn point when R is pressed 
         if (Input.GetKeyDown(KeyCode.R))
         {
             gameObject.transform.position = spawnPoint.transform.position;
+        }
+
+        if (playerHitPoints <= 0) 
+        {
+            PlayerDeath();
         }
     }
 
@@ -97,7 +109,19 @@ public class PlayerController : MonoBehaviour
         if (col.gameObject.tag == "EnemyCollision" || col.gameObject.tag == "EnemyBullet")
         {
             playerHitPoints -= 5;
-            Debug.Log(playerHitPoints);
         }
+    }
+
+    private void PlayerDeath()
+    {
+        LevelManager.instance.GameOver();
+        gameObject.SetActive(false);
+    }
+
+    IEnumerator DelayedShot(float time)
+    {
+        yield return new WaitForSeconds(time);
+    
+        Instantiate(PlayerBullet, new Vector2(transform.position.x, transform.position.y + 0.7f), Quaternion.identity);
     }
 }

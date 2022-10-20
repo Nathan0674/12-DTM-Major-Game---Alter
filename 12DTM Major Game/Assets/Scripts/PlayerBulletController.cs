@@ -38,7 +38,7 @@ public class PlayerBulletController : MonoBehaviour
     }
     void OnTriggerEnter2D (Collider2D col)
     {
-        if (col.gameObject.tag != "Player" && col.gameObject.tag != "EnemyCollision" && col.gameObject.tag != "EnemySight" && col.gameObject.tag != "SpiderSight" && col.gameObject.tag != "Background")
+        if (col.gameObject.tag != "Player" && col.gameObject.tag != "EnemyCollision" && col.gameObject.tag != "EnemySight" && col.gameObject.tag != "SpiderSight" && col.gameObject.tag != "Background" && col.gameObject.tag != "PlayerBullet")
         {
             Destroy(gameObject);
         }

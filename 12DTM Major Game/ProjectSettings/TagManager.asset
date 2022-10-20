@@ -23,7 +23,7 @@ TagManager:
   - Detection
   - ProjectileEnemy
   - ProjectilePlayer
-  - 
+  - PowerUp
   - 
   - 
   - 
@@ -65,4 +65,7 @@ TagManager:
     locked: 0
   - name: ForeGround
     uniqueID: 3672571007
+    locked: 0
+  - name: RenderTop
+    uniqueID: 967111177
     locked: 0

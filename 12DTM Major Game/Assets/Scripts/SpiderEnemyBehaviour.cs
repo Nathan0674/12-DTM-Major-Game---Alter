@@ -17,7 +17,6 @@ public class SpiderEnemyBehaviour : MonoBehaviour
     public GameObject Player;
     public Transform playerPos;
     private GameObject barrier;
-    private bool isColliding;
 
     // Start is called before the first frame update
     void Start()
@@ -39,8 +38,6 @@ public class SpiderEnemyBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        isColliding = false;
-
         RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - 1.0f), (Vector2.right * spiderDirection), 0.5f, groundLayer);
         //Debug.DrawRay(new Vector2 (transform.position.x + (0.5f * spiderDirection), transform.position.y - 1.0f), (Vector2.right * spiderDirection), Color.green);
         if (hit == true)
@@ -89,9 +86,6 @@ public class SpiderEnemyBehaviour : MonoBehaviour
     {
         if (col.gameObject.tag == "PlayerBullet")
         {
-            if (isColliding) return;
-            isColliding = true;
-
             spiderHitPoints = spiderHitPoints - 0.5f;
             Debug.Log(spiderHitPoints);
             if (spiderHitPoints <= 0) 

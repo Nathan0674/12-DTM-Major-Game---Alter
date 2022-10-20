@@ -20,7 +20,6 @@ public class EnemyBehaviour : MonoBehaviour
     public bool IsAvailable = true;
     public float CooldownDuration = 0.1f;
     private float enemyHitPoints = 30;
-    private bool isColliding;
 
     // Start is called before the first frame update
     void Start()
@@ -128,9 +127,6 @@ public class EnemyBehaviour : MonoBehaviour
     {
         if (col.gameObject.tag == "PlayerBullet")
         {
-            if (isColliding) return;
-            isColliding = true;
-
             enemyHitPoints -= 1;
             Debug.Log(enemyHitPoints);
             if (enemyHitPoints <= 0) 
@@ -139,13 +135,6 @@ public class EnemyBehaviour : MonoBehaviour
                 Debug.Log(barrier.gameObject.GetComponent<clearManager>().enemiesKilled);
                 Destroy(gameObject);
             }
-            StartCoroutine(Reset());
         }
-    }
-
-    IEnumerator Reset()
-    {
-        yield return new WaitForEndOfFrame();
-        isColliding = false;
     }
 }
