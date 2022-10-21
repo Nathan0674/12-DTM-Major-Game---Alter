@@ -20,15 +20,22 @@ public class EnemyBehaviour : MonoBehaviour
     public bool IsAvailable = true;
     public float CooldownDuration = 0.1f;
     private float enemyHitPoints = 30;
+    private GameObject instructionPanel;
+    private int playerDamage = 1;
+    private bool bulletDamageBuff;
+    private GameObject powerUpManager;
 
     // Start is called before the first frame update
     void Start()
     {
         enemyDirection = -1;
         activeState = false;
+        bulletDamageBuff = false;
 
         barrier = GameObject.Find("Barrier");
         Player = GameObject.Find("Player");
+        instructionPanel = GameObject.Find("StartScreen");
+        powerUpManager = GameObject.Find("PowerUpManager");
 
         enemyBoxCollider = GetComponent<BoxCollider2D>();
         enemySpriteRenderer = GetComponent<SpriteRenderer>();
@@ -40,6 +47,13 @@ public class EnemyBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (powerUpManager.GetComponent<PowerUpManager>().increaseBulletDamage == true && bulletDamageBuff == false)
+        {
+            playerDamage = playerDamage += 1;
+            bulletDamageBuff = true;
+            Debug.Log(playerDamage);
+        }
+
         RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - 1.0f), (Vector2.right * enemyDirection), 0.5f, groundLayer);
         //Debug.DrawRay(new Vector2 (transform.position.x + (0.5f * enemyDirection), transform.position.y - 1.0f), (Vector2.right * enemyDirection), Color.green);
         if (hit == true)
@@ -47,7 +61,7 @@ public class EnemyBehaviour : MonoBehaviour
             rb2DEnemy.velocity = new Vector2(rb2DEnemy.velocity.x, 1.0f * enemyJumpPower);
         }
 
-        if (activeState == false)
+        if (activeState == false && instructionPanel.GetComponent<InstructionPannelToggle>().gameActive == true)
         {
             rb2DEnemy.velocity = new Vector2(enemySpeed * enemyDirection, rb2DEnemy.velocity.y);
 
@@ -62,7 +76,7 @@ public class EnemyBehaviour : MonoBehaviour
             } 
         }
 
-        if (activeState == true)
+        if (activeState == true && instructionPanel.GetComponent<InstructionPannelToggle>().gameActive == true)
         {
             enemyJumpPower = 10;
             if (Player.transform.position.x > (gameObject.transform.position.x + 0.5f))
@@ -93,7 +107,7 @@ public class EnemyBehaviour : MonoBehaviour
         RaycastHit2D shoot = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + 0.6f), (Vector2.right * enemyDirection), 6.0f, playerLayer);
         Debug.DrawRay(new Vector2(transform.position.x, transform.position.y + 0.6f), Vector2.right * enemyDirection * 6.0f, Color.green);
     
-        if (shoot == true)
+        if (shoot == true && instructionPanel.GetComponent<InstructionPannelToggle>().gameActive == true)
         {
             UseAbility();
         }
@@ -120,15 +134,19 @@ public class EnemyBehaviour : MonoBehaviour
 
     void EnemyDirectionSwap()
     {
-        enemyDirection = enemyDirection * -1f;
+        if (instructionPanel.GetComponent<InstructionPannelToggle>().gameActive == true) 
+        {
+            enemyDirection = enemyDirection * -1f;
+        }
     }
 
     void OnTriggerEnter2D (Collider2D col)
     {
         if (col.gameObject.tag == "PlayerBullet")
         {
-            enemyHitPoints -= 1;
+            enemyHitPoints -= playerDamage;
             Debug.Log(enemyHitPoints);
+            Destroy(col.gameObject);
             if (enemyHitPoints <= 0) 
             {
                 barrier.gameObject.GetComponent<clearManager>().enemiesKilled += 1;

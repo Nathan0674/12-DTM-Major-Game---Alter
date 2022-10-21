@@ -10,14 +10,20 @@ public class clearManager : MonoBehaviour
     public bool roomThreeClear;
     private GameObject barrier;
     private Transform barrierTransform;
+    private GameObject spawnPoint;
+    private Transform spawnPointTransform;
 
     // Start is called before the first frame update
     void Start()
     {
         barrier = GameObject.Find("Barrier");
+        spawnPoint = GameObject.Find("SpawnPoint");
+
         enemiesKilled = 0;
         barrierTransform = barrier.transform;
         barrier.transform.position = new Vector2(32.01f, 0.69f);
+        spawnPointTransform = spawnPoint.transform;
+        spawnPoint.transform.position = new Vector2(-4.5f, 1f);
     }
 
     // Update is called once per frame
@@ -27,16 +33,19 @@ public class clearManager : MonoBehaviour
         {
             roomOneClear = true;
             barrier.transform.position = new Vector2(77f, 8f);
+            spawnPoint.transform.position = new Vector2(32.01f, 0.69f);
         }
         else if (enemiesKilled >= 7 && enemiesKilled <13)
         {
             roomTwoClear = true;
             barrier.transform.position = new Vector2(115f, -14f);
+            spawnPoint.transform.position = new Vector2(77f, 8f);
         }
         else if (enemiesKilled >= 13) 
         {
             roomThreeClear = true;
             barrier.transform.position = new Vector2(115f, -100f);
+            spawnPoint.transform.position = new Vector2(118f, -14f);
         }
 
     }

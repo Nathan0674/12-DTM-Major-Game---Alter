@@ -24,6 +24,17 @@ public class EnemySpawning : MonoBehaviour
         Instantiate(Enemy, new Vector3(86f, -14f), Quaternion.identity);
         Instantiate(Enemy, new Vector3(107f, -17.5f), Quaternion.identity);
         Instantiate(SpiderEnemy, new Vector3(95f, -19.5f), Quaternion.identity);
+
+        Instantiate(Enemy, new Vector3(123f, -16f), Quaternion.identity);
+        Instantiate(Enemy, new Vector3(128.5f, -15f), Quaternion.identity);
+        Instantiate(Enemy, new Vector3(135f, -16f), Quaternion.identity);
+        Instantiate(Enemy, new Vector3(140f, -16f), Quaternion.identity);
+        Instantiate(Enemy, new Vector3(145f, -16f), Quaternion.identity);
+        Instantiate(Enemy, new Vector3(125f, -5f), Quaternion.identity);
+        Instantiate(SpiderEnemy, new Vector3(144f, -12.5f), Quaternion.identity);
+        Instantiate(SpiderEnemy, new Vector3(144f, -9f), Quaternion.identity);
+        Instantiate(SpiderEnemy, new Vector3(120f, -5f), Quaternion.identity);
+        Instantiate(SpiderEnemy, new Vector3(130f, -5f), Quaternion.identity);
         Debug.Log("Spawning Finished");
     }
 

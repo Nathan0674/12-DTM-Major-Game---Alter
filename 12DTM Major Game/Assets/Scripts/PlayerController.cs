@@ -19,13 +19,14 @@ public class PlayerController : MonoBehaviour
     public float horizontal;
     public float vertical;
     public int swapNumber;
-    public float runSpeed = 6.0f;
+    public float runSpeed;
     public float jumpPower = 15.0f;
     private bool isGrounded;
     public bool movingLeft;
     public bool movingRight;
     public int playerHitPoints = 50;
     private float time = 0.2f;
+    private bool runSpeedBuffSet = false;
 
     private void Start()
     {
@@ -37,6 +38,12 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (powerUpManager.GetComponent<PowerUpManager>().increasePlayerSpeed == true && runSpeedBuffSet == false)
+        {
+            runSpeed = runSpeed += 4;
+            runSpeedBuffSet = true;
+        }
+
         shootDirection = Input.mousePosition;
         shootDirection.z = 0.0f;
         shootDirection = Camera.main.ScreenToWorldPoint(shootDirection);
@@ -68,20 +75,6 @@ public class PlayerController : MonoBehaviour
             movingLeft = false;
             movingRight = false;
         }
-
-        if(Input.GetKeyDown("x"))
-        {
-            swapNumber += 1;
-            
-            if(swapNumber%2==0)
-            {
-                spriteRenderer.sprite = playerLight; 
-            }
-            else
-            {
-                spriteRenderer.sprite = playerDark; 
-            }
-        }
         if (Input.GetMouseButtonDown(0))
         {
             Instantiate(PlayerBullet, new Vector2(transform.position.x, transform.position.y + 0.7f), Quaternion.identity);
@@ -92,7 +85,6 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        // Respawn the player at pre-determined spawn point when R is pressed 
         if (Input.GetKeyDown(KeyCode.R))
         {
             gameObject.transform.position = spawnPoint.transform.position;
